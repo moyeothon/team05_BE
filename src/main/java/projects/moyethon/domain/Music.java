@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Music {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "music_id")
     private Long id;
 
@@ -25,7 +25,10 @@ public class Music {
 
     private String albumImage;
 
-    @ManyToOne
+    @Enumerated(EnumType.STRING)
+    private EmotionType emotion;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diary_id")
     private Diary diary;
 }

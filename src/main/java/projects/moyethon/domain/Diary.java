@@ -27,10 +27,10 @@ public class Diary {
 
     @ElementCollection
     @CollectionTable(name = "diary_emotions", joinColumns = @JoinColumn(name = "diary_id"))
-    @Column(name = "emotions")
-    private List<String> feelings = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    private List<EmotionType> emotions = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 

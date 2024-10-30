@@ -20,17 +20,16 @@ public class MemberService {
 
     public MemberDTO join(MemberDTO memberDTO) {
 
-        if(!validateMember(memberDTO.getNickname())){
+        if(!validateMember(memberDTO.nickname())){
             throw new CustomDiaryException(ErrorCode.MEMBER_ALREADY_EXISTS);
         }
 
         Member member = Member.builder()
-                .nickname(memberDTO.getNickname())
+                .nickname(memberDTO.nickname())
                 .build();
 
         memberRepository.save(member);
-        MemberDTO dto = MemberDTO.builder()
-                .nickname(member.getNickname()).build();
+        MemberDTO dto = MemberDTO.from(member);
         return dto;
     }
 
