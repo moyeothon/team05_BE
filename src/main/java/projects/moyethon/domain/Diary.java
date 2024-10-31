@@ -35,5 +35,6 @@ public class Diary {
     private Member member;
 
     @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)
-    private List<Music> musicList = new ArrayList<>();
+    private List<DiaryMusic> musicList = new ArrayList<>();
+
 }
