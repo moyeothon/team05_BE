@@ -116,7 +116,8 @@ public class DiaryController {
             description = "특정 일기의 id로 일기를 삭제합니다.",
             tags = {"일기"},
             responses = {
-                    @ApiResponse(responseCode = "204", description = "일기 삭제 성공")
+                    @ApiResponse(responseCode = "204", description = "일기 삭제 성공"),
+                    @ApiResponse(responseCode = "404", description = "일기를 찾을 수 없음")
             }
     )
     public ResponseEntity<Void> deleteDiaryById(@PathVariable Long diaryId) {
