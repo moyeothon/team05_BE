@@ -28,6 +28,7 @@ public class Diary {
     @ElementCollection
     @CollectionTable(name = "diary_emotions", joinColumns = @JoinColumn(name = "diary_id"))
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private List<EmotionType> emotions = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -35,6 +36,18 @@ public class Diary {
     private Member member;
 
     @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<DiaryMusic> musicList = new ArrayList<>();
+
+    public Diary withUpdatedContent(String content, LocalDate createDate, List<EmotionType> emotions, List<DiaryMusic> musicList) {
+        return Diary.builder()
+                .id(this.id)
+                .member(this.member)
+                .content(content)
+                .createDate(createDate)
+                .emotions(emotions)
+                .musicList(musicList)
+                .build();
+    }
 
 }
