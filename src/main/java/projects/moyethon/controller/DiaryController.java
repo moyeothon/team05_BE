@@ -76,7 +76,7 @@ public class DiaryController {
         List<DiaryDTO> diaryDTOList = diaryService.getAllDiariesByUser(userNickname);
         return ResponseEntity.status(200).body(diaryDTOList);
     }
-    @GetMapping("/api/diary/{diaryId}")
+    @GetMapping("/api/diary/view/{diaryId}")
     @Operation(
             summary = "일기Id로 일기조회",
             description = "특정 일기의 id로 일기를 조회합니다.",
@@ -89,7 +89,7 @@ public class DiaryController {
         DiaryDTO diaryDTO = diaryService.getDiaryById(diaryId);
         return ResponseEntity.status(200).body(diaryDTO);
     }
-    @PostMapping("/api/diary")
+    @PostMapping("/api/diary/create")
     @Operation(
             summary = "일기 생성",
             description = "일기를 생성합니다.",
