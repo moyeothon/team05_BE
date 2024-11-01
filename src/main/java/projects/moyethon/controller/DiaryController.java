@@ -24,7 +24,7 @@ public class DiaryController {
 
     private final DiaryService diaryService;
 
-    @GetMapping("/api//diary")
+    @GetMapping("/api/diary")
     @Operation(
             summary = "특정 유저의 일기 전체조회",
             description = "특정 사용자의 일기를 전체조회합니다.",
