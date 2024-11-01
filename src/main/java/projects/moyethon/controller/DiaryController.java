@@ -91,6 +91,6 @@ public class DiaryController {
     @PostMapping("/api/diary")
     public Map<String, Long> createDiary(@RequestBody DiaryDTO diaryDTO) {
         Long id = diaryService.createDiary(diaryDTO);
-        return Map.of("creation successed : ", id);
+        return Map.of("creation successed", id);
     }
 }
