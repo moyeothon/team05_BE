@@ -37,4 +37,3 @@ out/
 .vscode/
 
 application-prod.yml
-aws.properties
