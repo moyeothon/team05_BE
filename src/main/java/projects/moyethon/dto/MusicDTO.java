@@ -6,9 +6,9 @@ public record MusicDTO(String title, String artist, String previewUrl, String im
 
     public Music toMusic(){
         return Music.builder()
-                .title(title)
-                .artist(artist)
-                .previewUrl(previewUrl)
-                .albumImage(imagePath).build();
+                .title(this.title)
+                .artist(this.artist)
+                .previewUrl(this.previewUrl)
+                .albumImage(this.imagePath).build();
     }
 }

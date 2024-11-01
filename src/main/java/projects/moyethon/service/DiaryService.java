@@ -26,32 +26,51 @@ public class DiaryService {
     private final MemberRepository memberRepository;
     private final MusicRepository musicRepository;
 
-    public Long createDiary(DiaryDTO diaryDTO) {
-        Member member = memberRepository.findByNickname(diaryDTO.nickname()).orElseThrow(() ->
-                new CustomDiaryException(ErrorCode.MEMBER_ALREADY_EXISTS));
+//    public Long createDiary(DiaryDTO diaryDTO) {
+//        Member member = memberRepository.findByNickname(diaryDTO.nickname()).orElseThrow(() ->
+//                new CustomDiaryException(ErrorCode.MEMBER_ALREADY_EXISTS));
+//
+//        Diary diary = Diary.builder()
+//                .member(member)
+//                .createDate(diaryDTO.createDate())
+//                .content(diaryDTO.content())
+//                .build();
+//
+//        for (EmotionType emotionType : diaryDTO.emotionTypes()) {
+//            diary.getEmotions().add(emotionType);
+//        }
+//
+//        List<MusicDTO> musicDTOList = diaryDTO.musicList();
+//
+//        List<Music> musicList = musicDTOList.stream().map(music -> music.toMusic()).toList();
+//
+//        for(Music music : musicList) {
+//            musicRepository.save(music);
+//            diary.getMusicList().add(music);
+//        }
+//
+//        diaryRepository.save(diary);
+//
+//        return diary.getId();
+//
+//    }
 
-        Diary diary = Diary.builder()
-                .member(member)
-                .createDate(diaryDTO.createDate())
-                .content(diaryDTO.content())
-                .build();
+    public List<DiaryDTO>  getAllDiariesByUser(String userNickname) {
+        Member member = memberRepository.findByNickname(userNickname).orElseThrow(() ->
+                new CustomDiaryException(ErrorCode.MEMBER_DOES_NOT_EXISTS));
 
-        for (EmotionType emotionType : diaryDTO.emotionTypes()) {
-            diary.getEmotions().add(emotionType);
-        }
+        Diary diary = diaryRepository.findByMemberNickname(userNickname).orElseThrow(() ->
+                new CustomDiaryException(ErrorCode.DIARY_NOT_FOUND));
 
-        List<MusicDTO> musicDTOList = diaryDTO.musicList();
+        List<MusicDTO> musicDTOList = diary.getMusicList().stream()
+                .map(diaryMusic -> {
+                    Music music = diaryMusic.getMusic();
+                    return new MusicDTO(music.getTitle(), music.getArtist(), music.getPreviewUrl(), music.getAlbumImage());
+                })
+                .toList();
 
-        List<Music> musicList = musicDTOList.stream().map(music -> music.toMusic()).toList();
-
-        for(Music music : musicList) {
-            musicRepository.save(music);
-            diary.getMusicList().add(music);
-        }
-
-        diaryRepository.save(diary);
-
-        return diary.getId();
-
+        return diaryRepository.findByMemberNickname(userNickname).stream()
+                .map(diary1 -> new DiaryDTO(diary1.getMember().getNickname(), diary1.getContent(), diary1.getCreateDate(), musicDTOList, diary1.getEmotions()))
+                .toList();
     }
 }
