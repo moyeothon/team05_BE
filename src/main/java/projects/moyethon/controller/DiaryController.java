@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import projects.moyethon.dto.DiaryDTO;
 import projects.moyethon.service.DiaryService;
@@ -78,7 +80,6 @@ public class DiaryController {
         List<DiaryDTO> diaryDTOList = diaryService.getAllDiariesByUser(userNickname);
         return ResponseEntity.status(200).body(diaryDTOList);
     }
-    // 일기 id로 일기를 조회하는 기능을 만들 거야
     @GetMapping("/diary/{diaryId}")
     @Operation(
             summary = "일기Id로 일기조회",
@@ -92,7 +93,23 @@ public class DiaryController {
         DiaryDTO diaryDTO = diaryService.getDiaryById(diaryId);
         return ResponseEntity.status(200).body(diaryDTO);
     }
-    // 일기 Id로 일기를 삭제하는 기능을 만들 거야
+
+    @PostMapping("/diary/{diaryId}")
+    @Operation(
+            summary = "일기Id로 일기수정",
+            description = "특정 일기의 id로 일기를 수정합니다.",
+            tags = {"일기"},
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "일기 수정 성공")
+            }
+    )
+    public ResponseEntity<DiaryDTO> updateDiaryById(@PathVariable Long diaryId, @RequestBody DiaryDTO diaryDTO) {
+        DiaryDTO updatedDiaryDTO = diaryService.updateDiaryById(diaryId, diaryDTO);
+        return ResponseEntity.status(200).body(updatedDiaryDTO);
+    }
+
+
+
     @DeleteMapping("/diary/{diaryId}")
     @Operation(
             summary = "일기Id로 일기삭제",

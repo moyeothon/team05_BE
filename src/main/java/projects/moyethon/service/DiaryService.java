@@ -1,9 +1,11 @@
 package projects.moyethon.service;
 
+import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import projects.moyethon.domain.Diary;
+import projects.moyethon.domain.DiaryMusic;
 import projects.moyethon.domain.EmotionType;
 import projects.moyethon.domain.Member;
 import projects.moyethon.domain.Music;
@@ -86,6 +88,24 @@ public class DiaryService {
                 .toList();
 
         return new DiaryDTO(diary.getMember().getNickname(), diary.getContent(), diary.getCreateDate(), musicDTOList, diary.getEmotions());
+    }
+
+    public DiaryDTO updateDiaryById(Long diaryId, DiaryDTO diaryDTO) {
+        Diary diary = diaryRepository.findById(diaryId).orElseThrow(() ->
+                new CustomDiaryException(ErrorCode.DIARY_NOT_FOUND));
+
+        List<EmotionType> updatedEmotions = new ArrayList<>(diaryDTO.emotionTypes());
+
+        List<MusicDTO> musicDTOList = diaryDTO.musicList();
+        List<DiaryMusic> updatedMusicList = musicDTOList.stream()
+                .map(musicDTO -> new DiaryMusic(null, diary, musicDTO.toMusic()))
+                .toList();
+
+        Diary updatedDiary = diary.withUpdatedContent(diaryDTO.content(), diaryDTO.createDate(), updatedEmotions, updatedMusicList);
+
+        diaryRepository.save(updatedDiary);
+
+        return new DiaryDTO(updatedDiary.getMember().getNickname(), updatedDiary.getContent(), updatedDiary.getCreateDate(), musicDTOList, updatedDiary.getEmotions());
     }
 
     public void deleteDiaryById(Long diaryId) {
