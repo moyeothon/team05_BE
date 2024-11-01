@@ -6,29 +6,22 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Entity
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Getter
-public class Music {
-
+public class DiaryMusic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "music_id")
+    @Column(name = "diary_music_id")
     private Long id;
 
-    private String title;
+    @ManyToOne
+    @JoinColumn(name = "diary_id")
+    private Diary diary;
 
-    private String artist;
-
-    private String previewUrl;
-
-    private String albumImage;
-
-    @Enumerated(EnumType.STRING)
-    private EmotionType emotion;
-
+    @ManyToOne
+    @JoinColumn(name = "music_id")
+    private Music music;
 }

@@ -35,5 +35,17 @@ public class Diary {
     private Member member;
 
     @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL)
-    private List<Music> musicList = new ArrayList<>();
+    private List<DiaryMusic> musicList = new ArrayList<>();
+
+    public Diary withUpdatedContent(String content, LocalDate createDate, List<EmotionType> emotions, List<DiaryMusic> musicList) {
+        return Diary.builder()
+                .id(this.id)
+                .member(this.member)
+                .content(content)
+                .createDate(createDate)
+                .emotions(emotions)
+                .musicList(musicList)
+                .build();
+    }
+
 }
