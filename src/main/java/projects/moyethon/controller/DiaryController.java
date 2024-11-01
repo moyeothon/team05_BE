@@ -103,7 +103,7 @@ public class DiaryController {
         return Map.of("creation successed", id);
     }
 
-    @DeleteMapping("/diary/{diaryId}")
+    @DeleteMapping("api/diary/{diaryId}")
     @Operation(
             summary = "일기Id로 일기삭제",
             description = "특정 일기의 id로 일기를 삭제합니다.",
