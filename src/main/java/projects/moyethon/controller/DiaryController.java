@@ -22,7 +22,7 @@ public class DiaryController {
 
     private final DiaryService diaryService;
 
-    @GetMapping("/diary")
+    @GetMapping("/api//diary")
     @Operation(
             summary = "특정 유저의 일기 전체조회",
             description = "특정 사용자의 일기를 전체조회합니다.",
@@ -75,7 +75,7 @@ public class DiaryController {
         List<DiaryDTO> diaryDTOList = diaryService.getAllDiariesByUser(userNickname);
         return ResponseEntity.status(200).body(diaryDTOList);
     }
-    @GetMapping("/diary/{diaryId}")
+    @GetMapping("/api/diary/{diaryId}")
     @Operation(
             summary = "일기Id로 일기조회",
             description = "특정 일기의 id로 일기를 조회합니다.",
