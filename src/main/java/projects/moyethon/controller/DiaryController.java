@@ -93,4 +93,19 @@ public class DiaryController {
         Long id = diaryService.createDiary(diaryDTO);
         return Map.of("creation successed", id);
     }
+
+    @DeleteMapping("/diary/{diaryId}")
+    @Operation(
+            summary = "일기Id로 일기삭제",
+            description = "특정 일기의 id로 일기를 삭제합니다.",
+            tags = {"일기"},
+            responses = {
+                    @ApiResponse(responseCode = "204", description = "일기 삭제 성공"),
+                    @ApiResponse(responseCode = "404", description = "일기를 찾을 수 없음")
+            }
+    )
+    public ResponseEntity<Void> deleteDiaryById(@PathVariable Long diaryId) {
+        diaryService.deleteDiaryById(diaryId);
+        return ResponseEntity.status(204).build();
+    }
 }
