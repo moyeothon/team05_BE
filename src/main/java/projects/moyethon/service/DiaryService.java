@@ -73,4 +73,25 @@ public class DiaryService {
                 .map(diary1 -> new DiaryDTO(diary1.getMember().getNickname(), diary1.getContent(), diary1.getCreateDate(), musicDTOList, diary1.getEmotions()))
                 .toList();
     }
+
+    public DiaryDTO getDiaryById(Long diaryId) {
+        Diary diary = diaryRepository.findById(diaryId).orElseThrow(() ->
+                new CustomDiaryException(ErrorCode.DIARY_NOT_FOUND));
+
+        List<MusicDTO> musicDTOList = diary.getMusicList().stream()
+                .map(diaryMusic -> {
+                    Music music = diaryMusic.getMusic();
+                    return new MusicDTO(music.getTitle(), music.getArtist(), music.getPreviewUrl(), music.getAlbumImage());
+                })
+                .toList();
+
+        return new DiaryDTO(diary.getMember().getNickname(), diary.getContent(), diary.getCreateDate(), musicDTOList, diary.getEmotions());
+    }
+
+    public void deleteDiaryById(Long diaryId) {
+        Diary diary = diaryRepository.findById(diaryId).orElseThrow(() ->
+                new CustomDiaryException(ErrorCode.DIARY_NOT_FOUND));
+
+        diaryRepository.delete(diary);
+    }
 }

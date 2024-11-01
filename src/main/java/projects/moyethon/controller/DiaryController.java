@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +27,7 @@ public class DiaryController {
 
     @GetMapping("/diary/{userNickname}")
     @Operation(
-            summary = "일기 조회",
+            summary = "특정 유저의 일기 전체조회",
             description = "특정 사용자의 일기를 전체조회합니다.",
             tags = {"일기"},
             responses = {
@@ -76,6 +77,34 @@ public class DiaryController {
     public ResponseEntity<List<DiaryDTO>> getAllDiariesByUser(@PathVariable String userNickname) {
         List<DiaryDTO> diaryDTOList = diaryService.getAllDiariesByUser(userNickname);
         return ResponseEntity.status(200).body(diaryDTOList);
+    }
+    // 일기 id로 일기를 조회하는 기능을 만들 거야
+    @GetMapping("/diary/{diaryId}")
+    @Operation(
+            summary = "일기Id로 일기조회",
+            description = "특정 일기의 id로 일기를 조회합니다.",
+            tags = {"일기"},
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "일기 조회 성공")
+            }
+    )
+    public ResponseEntity<DiaryDTO> getDiaryById(@PathVariable Long diaryId) {
+        DiaryDTO diaryDTO = diaryService.getDiaryById(diaryId);
+        return ResponseEntity.status(200).body(diaryDTO);
+    }
+    // 일기 Id로 일기를 삭제하는 기능을 만들 거야
+    @DeleteMapping("/diary/{diaryId}")
+    @Operation(
+            summary = "일기Id로 일기삭제",
+            description = "특정 일기의 id로 일기를 삭제합니다.",
+            tags = {"일기"},
+            responses = {
+                    @ApiResponse(responseCode = "204", description = "일기 삭제 성공")
+            }
+    )
+    public ResponseEntity<Void> deleteDiaryById(@PathVariable Long diaryId) {
+        diaryService.deleteDiaryById(diaryId);
+        return ResponseEntity.status(204).build();
     }
 
 
