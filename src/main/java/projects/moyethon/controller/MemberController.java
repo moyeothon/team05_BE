@@ -1,5 +1,7 @@
 package projects.moyethon.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,15 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/api/member")
+    @Operation(
+            summary = "사용자 등록",
+            description = "사용자를 등록합니다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "사용자 등록 성공"),
+                    @ApiResponse(responseCode = "400", description = "잘못된 요청 데이터"),
+            }
+    )
+
     public ResponseEntity<MemberDTO> createMember(@RequestBody MemberDTO memberDTO) {
         MemberDTO member = memberService.join(memberDTO);
         return ResponseEntity.ok(member);

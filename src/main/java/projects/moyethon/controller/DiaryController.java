@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "일기", description = "일기를 담당하는 api 그룹")
 public class DiaryController {
 
     private final DiaryService diaryService;
@@ -26,7 +28,6 @@ public class DiaryController {
     @Operation(
             summary = "특정 유저의 일기 전체조회",
             description = "특정 사용자의 일기를 전체조회합니다.",
-            tags = {"일기"},
             responses = {
                     @ApiResponse(responseCode = "200", description = "일기 조회 성공",
                             content = @Content(mediaType = "application/json",
@@ -89,6 +90,14 @@ public class DiaryController {
         return ResponseEntity.status(200).body(diaryDTO);
     }
     @PostMapping("/api/diary")
+    @Operation(
+            summary = "일기 생성",
+            description = "일기를 생성합니다.",
+            tags = {"일기"},
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "일기 생성 성공")
+            }
+    )
     public Map<String, Long> createDiary(@RequestBody DiaryDTO diaryDTO) {
         Long id = diaryService.createDiary(diaryDTO);
         return Map.of("creation successed", id);
