@@ -5,11 +5,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import projects.moyethon.dto.MemberDTO;
 import projects.moyethon.service.MemberService;
+
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,5 +33,10 @@ public class MemberController {
         return ResponseEntity.ok(member);
     }
 
+    @GetMapping("/api/member/check")
+    public Map<String,String> checkMember(@RequestParam(name = "nickname") String nickname) {
+        Map<String, String> response = memberService.checkMember(nickname);
+        return response;
+    }
 
 }

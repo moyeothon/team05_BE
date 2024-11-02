@@ -9,6 +9,7 @@ import projects.moyethon.exception.CustomDiaryException;
 import projects.moyethon.exception.ErrorCode;
 import projects.moyethon.repository.MemberRepository;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -31,6 +32,16 @@ public class MemberService {
         memberRepository.save(member);
         MemberDTO dto = MemberDTO.from(member);
         return dto;
+    }
+
+    public Map<String, String> checkMember(String nickname){
+        Optional<Member> member = memberRepository.findByNickname(nickname);
+
+        if(member.isPresent()){
+            throw new CustomDiaryException(ErrorCode.MEMBER_ALREADY_EXISTS);
+        }
+
+        return Map.of("nickname is availavle", nickname);
     }
 
     private boolean validateMember(String nickname) {
