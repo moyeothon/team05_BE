@@ -1,6 +1,7 @@
 package projects.moyethon.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,15 @@ public class MemberController {
     }
 
     @GetMapping("/api/member/check")
+    @Operation(
+            summary = "사용자 중복체크",
+            description = "사용자의 중복을 체크합니다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "닉네임 사용가능"),
+                    @ApiResponse(responseCode = "400", description = "닉네임 중복"),
+            }
+
+    )
     public Map<String,String> checkMember(@RequestParam(name = "nickname") String nickname) {
         Map<String, String> response = memberService.checkMember(nickname);
         return response;
