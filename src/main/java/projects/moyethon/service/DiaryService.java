@@ -122,4 +122,6 @@ public class DiaryService {
 
         return new DiaryDTO(diary.getMember().getNickname(), diary.getContent(), diary.getCreateDate(), musicDTOList, diary.getEmotions());
     }
+
+
 }
