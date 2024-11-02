@@ -39,8 +39,8 @@ public class MemberController {
             summary = "사용자 중복체크",
             description = "사용자의 중복을 체크합니다.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "닉네임 사용가능"),
-                    @ApiResponse(responseCode = "400", description = "닉네임 중복"),
+                    @ApiResponse(responseCode = "200", description = "닉네임 중복"),
+                    @ApiResponse(responseCode = "400", description = "닉네임 사용가능"),
             }
 
     )
