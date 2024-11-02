@@ -41,7 +41,7 @@ public class MemberService {
             throw new CustomDiaryException(ErrorCode.MEMBER_ALREADY_EXISTS);
         }
 
-        return Map.of("nickname is availavle", nickname);
+        return Map.of("nickname is available", nickname);
     }
 
     private boolean validateMember(String nickname) {
