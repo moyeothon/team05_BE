@@ -117,4 +117,6 @@ public class DiaryController {
         diaryService.deleteDiaryById(diaryId);
         return ResponseEntity.status(204).build();
     }
+
+
 }

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import projects.moyethon.dto.MemberDTO;
 import projects.moyethon.service.MemberService;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -36,6 +35,16 @@ public class MemberController {
     }
 
     @GetMapping("/api/member/check")
+    @Operation(
+            summary = "사용자 중복체크",
+            description = "사용자의 중복을 체크합니다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "닉네임 사용가능"),
+                    @ApiResponse(responseCode = "400", description = "닉네임 중복"),
+            }
+
+    )
+
     public ResponseEntity<?> checkMember(@RequestParam(name = "nickname") String nickname) {
 
         if(memberService.checkMember(nickname)){
