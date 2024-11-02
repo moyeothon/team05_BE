@@ -34,14 +34,11 @@ public class MemberService {
         return dto;
     }
 
-    public Map<String, String> checkMember(String nickname){
-        Optional<Member> member = memberRepository.findByNickname(nickname);
-
-        if(member.isPresent()){
-            throw new CustomDiaryException(ErrorCode.MEMBER_ALREADY_EXISTS);
+    public boolean checkMember(String nickname){
+        if(validateMember(nickname)){
+            return true;
         }
-
-        return Map.of("nickname is available", nickname);
+        return false;
     }
 
     private boolean validateMember(String nickname) {

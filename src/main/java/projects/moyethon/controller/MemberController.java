@@ -4,11 +4,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import projects.moyethon.dto.MemberDTO;
 import projects.moyethon.service.MemberService;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -34,9 +36,14 @@ public class MemberController {
     }
 
     @GetMapping("/api/member/check")
-    public Map<String,String> checkMember(@RequestParam(name = "nickname") String nickname) {
-        Map<String, String> response = memberService.checkMember(nickname);
-        return response;
+    public ResponseEntity<?> checkMember(@RequestParam(name = "nickname") String nickname) {
+
+        if(memberService.checkMember(nickname)){
+            Map<String, String> map = Map.of("nickname available", nickname);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(map);
+        }
+        Map<String, String> map = Map.of("nickname duplicated", nickname);
+        return ResponseEntity.ok(map);
     }
 
 }
